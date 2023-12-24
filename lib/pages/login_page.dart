@@ -15,6 +15,20 @@ class _LoginPageState extends State<LoginPage> {
   String name = '';
   bool chnageButton = false;
 
+  void moveToHome(BuildContext context) async {
+    if (_formKey.currentState!.validate()) {
+      setState(() {
+        chnageButton = true;
+      });
+      await Future.delayed(const Duration(seconds: 2));
+      // ignore: use_build_context_synchronously
+      await Navigator.pushNamed(context, MyRoutes.homeRoute);
+      setState(() {
+        chnageButton = false;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,7 +38,8 @@ class _LoginPageState extends State<LoginPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Image.asset(
-              'images/login.png',
+              'images/welcome.png',
+              fit: BoxFit.cover,
             ),
             const SizedBox(height: 20),
             Text('Welcome $name',
@@ -44,7 +59,7 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return "Please enter username";
+                          return "Username can not be empty";
                         }
                         return null;
                       },
@@ -63,7 +78,9 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return "Please enter username";
+                          return "Password can not be empty";
+                        } else if (value.length < 6) {
+                          return "Password length should be at lest 6";
                         }
                         return null;
                       },
@@ -72,16 +89,7 @@ class _LoginPageState extends State<LoginPage> {
                     const SizedBox(height: 40),
 
                     InkWell(
-                      onTap: () async {
-                        setState(() {
-                          chnageButton = true;
-                        });
-                        if (_formKey.currentState!.validate()) {
-                          await Future.delayed(const Duration(seconds: 2));
-                          // ignore: use_build_context_synchronously
-                          Navigator.pushNamed(context, MyRoutes.homeRoute);
-                        }
-                      },
+                      onTap: () => moveToHome(context),
                       child: AnimatedContainer(
                         duration: const Duration(seconds: 1),
                         width: chnageButton ? 50 : 150,
@@ -91,9 +99,6 @@ class _LoginPageState extends State<LoginPage> {
                           shape: chnageButton
                               ? BoxShape.circle
                               : BoxShape.rectangle,
-                          // borderRadius: chnageButton
-                          //     ? BorderRadius.circular(20)
-                          //     : BorderRadius.circular(8),
                         ),
                         child: Center(
                             child: chnageButton
@@ -126,5 +131,3 @@ class _LoginPageState extends State<LoginPage> {
   }
 }
 
-
-//TODO:- time start 

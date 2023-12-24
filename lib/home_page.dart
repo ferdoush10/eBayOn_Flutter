@@ -1,3 +1,4 @@
+import 'package:ebuy_on/widget/my_drawer.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -13,8 +14,8 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Catalog app'),
-        centerTitle: true,
       ),
+      drawer: const MyDrawer(),
     );
   }
 }
